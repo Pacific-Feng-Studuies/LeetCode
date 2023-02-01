@@ -1,0 +1,58 @@
+#include<iostream>
+#include<vector>
+#include<climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k);
+
+    int n;      // number of cities
+    int k;      // maximum number of stops
+    int src;    // the source city
+    int dst;    // the destination city
+    vector<vector<int>> flights;    // the directed distances between cities
+};
+
+int Solution::findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k)
+{
+    vector<int> distRecord(n, INT_MAX);         // minimun distance to each node (node, min distance)
+    
+    distRecord[src] = 0;
+
+    for(int i = 0 ; i <= k ; i++)
+    {
+        vector<int> tmp(distRecord);    // to copy the distRecord
+
+        for(auto& p : flights)
+        {
+            if(distRecord[p[0]] != INT_MAX)
+            {
+                tmp[p[1]] = min(distRecord[p[0]]+p[2], tmp[p[1]]);  // use this net or the prev added weight
+            }
+        }
+
+        distRecord = tmp;
+    }
+
+    return distRecord[dst] == INT_MAX? -1 : distRecord[dst];
+}
+
+int main()
+{
+    Solution solution;
+
+    solution.n = 3;
+    solution.k = 1;
+    solution.src = 0;
+    solution.dst = 2;
+    solution.flights = {{0,1,100},{1,2,100},{0,2,500}};
+
+    int minDist = 0;
+    minDist = solution.findCheapestPrice(solution.n, solution.flights, solution.src, solution.dst, solution.k);
+
+    cout << "The minimum distance = " << minDist << endl;
+
+    return 0;
+}
