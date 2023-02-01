@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-            int totalSum = 0;
+        int totalSum = 0;
     int subsetSum = 0;
     int n = nums.size();
 
@@ -16,19 +16,19 @@ public:
 
     for(int i = 0; i < n+1; i++)
     {
-        dp[i][0] = true;
+        dp[i][0] = true;    // if not choose anyone, then it equal to 0
     }
 
     for(int i = 1; i < subsetSum+1; i++)
     {
-        dp[0][i] = false;
+        dp[0][i] = false;   // if not choose anyone, then the sum will only be 0
     }
 
     for(int i = 1 ; i < n+1 ; i++)
     {
         for(int j = 1 ; j < subsetSum+1 ; j++)
         {
-            dp[i][j] = dp[i-1][j];
+            dp[i][j] = dp[i-1][j];  // just for not choose i
 
             if(j>=nums[i-1])
             {
@@ -36,6 +36,6 @@ public:
             }
         }
     }
-    return dp[n][subsetSum];
+    return dp[n][subsetSum];    // to choose includes first n element, whether the value will be "subsetSum"
     }
 };
