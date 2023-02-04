@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if(s2.size() < s1.size())   return false;
+
+    sort(s1.begin(), s1.end());
+
+    for(int i = 0 ; i <= s2.size() - s1.size() ; i++)
+    {
+        size_t found = s1.find(s2[i]);
+        
+        if(found == string::npos)   continue;
+        else
+        {
+            string s2_tmp = s2.substr(i, s1.size());
+            sort(s2_tmp.begin(), s2_tmp.end());
+
+            if(s1 == s2_tmp)    return true;
+        }
+    }
+    return false;
+    }
+};
